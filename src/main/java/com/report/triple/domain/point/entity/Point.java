@@ -11,15 +11,15 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PointTotal extends BaseEntity {
+public class Point extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pointTotal_id")
+    @Column(name = "point_id")
     private Long id;
     private String userId;
     private int totalPoint;
 
     @Builder
-    public PointTotal(String userId, int totalPoint) {
+    public Point(String userId, int totalPoint) {
         this.userId = userId;
         this.totalPoint = totalPoint;
     }
