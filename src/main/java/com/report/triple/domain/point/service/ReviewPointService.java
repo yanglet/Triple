@@ -22,7 +22,7 @@ public class ReviewPointService implements PointService{
 
     @Override
     public EarningPointResponse earningPoint(EarningPointRequest earningPointRequest) {
-        // 리뷰작성 이벤트가 아닐경우
+        // 리뷰 작성 이벤트가 아닐경우
         if( !earningPointRequest.getType().equals("REVIEW") ){
             return new EarningPointResponse(earningPointRequest.getUserId(), 0);
         }

@@ -5,4 +5,5 @@ import com.report.triple.domain.point.response.EarningPointResponse;
 
 public interface PointService {
     EarningPointResponse earningPoint(EarningPointRequest earningPointRequest);
+
 }

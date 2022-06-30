@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -14,22 +14,23 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EarningPointRequest {
-    @NotEmpty
+    @NotBlank
     private String type;
-    @NotEmpty
+    @NotBlank
     private String action;
-    @NotEmpty
+    @NotBlank
     @UUID // UUID 포맷인지 검사
     private String reviewId;
     @NotNull // 빈 문자열 가능
     private String content;
-    @NotNull
     @Valid
+    @NotNull
+    @UUID
     private List<String> attachedPhotoIds;
-    @NotEmpty
+    @NotBlank
     @UUID
     private String userId;
-    @NotEmpty
+    @NotBlank
     @UUID
     private String placeId;
 }
