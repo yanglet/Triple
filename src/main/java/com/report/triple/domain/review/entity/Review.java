@@ -16,7 +16,7 @@ public class Review {
     @Id
     @Column(name = "review_id")
     private String id;
-    @Lob // 255자 이상 텍스트가 짤리는 것을 방지
+    @Column(columnDefinition = "TEXT") // 댓글이 잘리지 않도록 함
     private String content;
     @ElementCollection
     private List<String> attachedPhotoIds = new ArrayList<>();
@@ -32,5 +32,10 @@ public class Review {
         this.userId = userId;
         this.placeId = placeId;
         this.isFirst = isFirst;
+    }
+
+    public void update(String content, List<String> attachedPhotoIds){
+        this.content = content;
+        this.attachedPhotoIds = attachedPhotoIds;
     }
 }

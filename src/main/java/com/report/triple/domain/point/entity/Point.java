@@ -15,6 +15,7 @@ public class Point extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "point_id")
     private Long id;
+    @Column(unique = true)
     private String userId;
     private int totalPoint;
 
@@ -22,5 +23,13 @@ public class Point extends BaseEntity {
     public Point(String userId, int totalPoint) {
         this.userId = userId;
         this.totalPoint = totalPoint;
+    }
+
+    public void addPoint(int point){
+        this.totalPoint += point;
+    }
+
+    public void minusPoint(int point){
+        this.totalPoint -= point;
     }
 }
