@@ -19,15 +19,13 @@ public class PointLog extends BaseEntity {
     private String userId;
     private String action; // ADD, MOD, DELETE
     private int point;
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "review_id")
-    private Review review;
+    private String reviewId;
 
     @Builder
-    public PointLog(String userId, String action, int point, Review review) {
+    public PointLog(String userId, String action, int point, String reviewId) {
         this.userId = userId;
         this.action = action;
         this.point = point;
-        this.review = review;
+        this.reviewId = reviewId;
     }
 }
