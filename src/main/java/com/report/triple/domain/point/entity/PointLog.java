@@ -12,6 +12,10 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(indexes = {
+        @Index(name = "ui_idx_point_log", columnList = "userId"),
+        @Index(name = "ri_idx_point_log", columnList = "reviewId")
+})
 public class PointLog extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pointLog_id")
