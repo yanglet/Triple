@@ -25,7 +25,6 @@ public class EarningPointRequest {
     private String content;
     @Valid
     @NotNull
-    @UUID
     private List<String> attachedPhotoIds;
     @NotBlank
     @UUID

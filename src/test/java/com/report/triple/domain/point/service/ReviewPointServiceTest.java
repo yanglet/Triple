@@ -3,6 +3,7 @@ package com.report.triple.domain.point.service;
 import com.report.triple.domain.point.repository.PointLogRepository;
 import com.report.triple.domain.point.request.EarningPointRequest;
 import com.report.triple.domain.point.response.EarningPointResponse;
+import jdk.jfr.StackTrace;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,52 @@ public class ReviewPointServiceTest {
     PointService pointService;
     @Autowired
     PointLogRepository pointLogRepository;
+
+    @Test
+    @DisplayName("포인트 계산 테스트")
+    @Transactional
+    void calculatePoint(){
+        EarningPointRequest earningPointRequest1 = new EarningPointRequest("REVIEW",
+                "ADD",
+                "240a0658-dc5f-4878-9381-ebb7b2667772",
+                "좋아요!",
+                Arrays.asList("e4d1a64e-a531-46de-88d0-ff0ed70c0bb8", "afb0cef2- 851d-4a50-bb07-9cc15cbdc332"),
+                "1ede0ef2-92b7-4817-a5f3-0c575361f745",
+                "2e4baf1c-5acb-4efb-a1af-eddada31b00f");
+        EarningPointResponse earningPointResponse1 = pointService.earningPoint(earningPointRequest1);
+
+        EarningPointRequest earningPointRequest2 = new EarningPointRequest("REVIEW",
+                "ADD",
+                "240a0658-dc5f-4878-9381-ebb7b2667772",
+                "좋아요!",
+                Arrays.asList("e4d1a64e-a531-46de-88d0-ff0ed70c0bb8"),
+                "2ede0ef2-92b7-4817-a5f3-0c575361f745",
+                "2e4baf1c-5acb-4efb-a1af-eddada31b00f");
+        EarningPointResponse earningPointResponse2 = pointService.earningPoint(earningPointRequest2);
+
+        EarningPointRequest earningPointRequest3 = new EarningPointRequest("REVIEW",
+                "ADD",
+                "240a0658-dc5f-4878-9381-ebb7b2667772",
+                "좋아요!",
+                new ArrayList<>(),
+                "3ede0ef2-92b7-4817-a5f3-0c575361f745",
+                "2e4baf1c-5acb-4efb-a1af-eddada31b00f");
+        EarningPointResponse earningPointResponse3 = pointService.earningPoint(earningPointRequest3);
+
+        EarningPointRequest earningPointRequest4 = new EarningPointRequest("REVIEW",
+                "ADD",
+                "240a0658-dc5f-4878-9381-ebb7b2667772",
+                "",
+                new ArrayList<>(),
+                "4ede0ef2-92b7-4817-a5f3-0c575361f745",
+                "2e4baf1c-5acb-4efb-a1af-eddada31b00f");
+        EarningPointResponse earningPointResponse4 = pointService.earningPoint(earningPointRequest4);
+
+        assertThat(earningPointResponse1.getPoint()).isEqualTo(3); // 첫 리뷰 +1, 텍스트 +1, 사진 +1 -> 3점
+        assertThat(earningPointResponse2.getPoint()).isEqualTo(2); // 텍스트 +1, 사진 +1 -> 2점
+        assertThat(earningPointResponse3.getPoint()).isEqualTo(1); // 텍스트 +1 -> 1점
+        assertThat(earningPointResponse4.getPoint()).isEqualTo(0); // 0점
+    }
 
     @Test
     @DisplayName("[ADD] 리뷰 작성 이벤트시 포인트 적립")
