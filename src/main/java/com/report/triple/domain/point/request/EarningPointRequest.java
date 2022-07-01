@@ -23,8 +23,6 @@ public class EarningPointRequest {
     private String reviewId;
     @NotNull // 빈 문자열 가능
     private String content;
-    @Valid
-    @NotNull
     private List<String> attachedPhotoIds;
     @NotBlank
     @UUID
