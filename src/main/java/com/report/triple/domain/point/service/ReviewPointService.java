@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -28,6 +30,12 @@ public class ReviewPointService implements PointService{
         }
 
         if(earningPointRequest.getAction().equals("ADD")){ // 리뷰 작성
+            // 동일 사용자가 동일한 장소에 리뷰를 2개 이상 추가할 수 없음
+            if( isPresent(earningPointRequest) ){
+                Point userPoint = getUserPoint(earningPointRequest.getUserId());
+                return new EarningPointResponse(userPoint);
+            }
+
             int curPoint = calculatePoint(earningPointRequest);
             Review review = Review.builder()
                     .id(earningPointRequest.getReviewId())
@@ -73,6 +81,13 @@ public class ReviewPointService implements PointService{
         }
 
         return new EarningPointResponse(earningPointRequest.getUserId(), 0);
+    }
+
+    // 사용자가 여행지에 리뷰를 달았는지 여부 확인
+    private boolean isPresent(EarningPointRequest earningPointRequest) {
+        List<Review> ReviewList = reviewRepository.findByPlaceId(earningPointRequest.getPlaceId());
+        boolean isPresent = ReviewList.stream().anyMatch(r -> r.getUserId().equals(earningPointRequest.getUserId()));
+        return isPresent;
     }
 
     private void savePointLog(EarningPointRequest earningPointRequest, int point) {
