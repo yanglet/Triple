@@ -28,7 +28,7 @@ public class PointController {
 
     @ApiOperation("포인트 적립")
     @PostMapping("/events")
-    public ResponseEntity<EarningPointResponse> EarningPoint(@RequestBody @Validated EarningPointRequest earningPointRequest){
+    public ResponseEntity<EarningPointResponse> earningPoint(@RequestBody @Validated EarningPointRequest earningPointRequest){
         EarningPointResponse earningPointResponse = pointService.earningPoint(earningPointRequest);
         return ResponseEntity.ok(earningPointResponse);
     }

@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler
-    protected ErrorResult DefaultExceptionHandler(Exception e){
+    protected ErrorResult defaultExceptionHandler(Exception e){
         log.error("DefaultExceptionHandler", e);
         return new ErrorResult("500", "서버 오류!");
     }
