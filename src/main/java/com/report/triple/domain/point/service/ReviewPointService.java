@@ -127,7 +127,7 @@ public class ReviewPointService implements PointService{
             point += 1;
         }
         // 1장 이상 사진 첨부 +1
-        if(earningPointRequest.getAttachedPhotoIds().size() > 0){
+        if( checkAttachedPhotoIds(earningPointRequest.getAttachedPhotoIds()) ){
             point += 1;
         }
         // 특정 장소에 첫 리뷰 작성 +1
@@ -146,7 +146,7 @@ public class ReviewPointService implements PointService{
             point += 1;
         }
         // 1장 이상 사진 첨부 +1
-        if(review.getAttachedPhotoIds().size() > 0){
+        if( checkAttachedPhotoIds(review.getAttachedPhotoIds()) ){
             point += 1;
         }
         // 특정 장소에 첫 리뷰 작성 +1
@@ -155,5 +155,12 @@ public class ReviewPointService implements PointService{
         }
 
         return point;
+    }
+
+    private boolean checkAttachedPhotoIds(List<String> attachedPhotoIds){
+        if(attachedPhotoIds != null && attachedPhotoIds.size() > 0){
+            return true;
+        }
+        return false;
     }
 }
