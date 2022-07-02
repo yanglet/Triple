@@ -39,4 +39,4 @@ create table review_attached_photo_ids (
         attached_photo_ids varchar(255)
 ) engine=InnoDB;
 
-alter table review_attached_photo_ids add constraint FK2ritt7kb82s3h8v80t946n7hs foreign key (review_id) references review (review_id);
+alter table review_attached_photo_ids add constraint fk_const foreign key (review_id) references review (review_id);
