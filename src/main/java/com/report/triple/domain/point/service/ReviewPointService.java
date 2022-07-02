@@ -56,6 +56,11 @@ public class ReviewPointService implements PointService{
         }else if(earningPointRequest.getAction().equals("MOD")){ // 리뷰 수정
             Review review = reviewRepository.findById(earningPointRequest.getReviewId()).orElseThrow();
             int oldPoint = calculatePoint(review);
+            // 리뷰 작성한 사용자가 아닌 경우 수정 불가능
+            if( !earningPointRequest.getUserId().equals(review.getUserId()) ){
+                Point userPoint = getUserPoint(earningPointRequest.getUserId());
+                return new EarningPointResponse(userPoint);
+            }
             review.update(earningPointRequest.getContent(), earningPointRequest.getAttachedPhotoIds());
             int curPoint = calculatePoint(review);
 

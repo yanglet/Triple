@@ -19,6 +19,10 @@ public class Review {
     @Column(columnDefinition = "TEXT") // 댓글이 잘리지 않도록 함
     private String content;
     @ElementCollection
+    @CollectionTable(
+            name = "review_attached_photo_ids",
+            joinColumns = @JoinColumn(name = "review_id", referencedColumnName = "review_id")
+    )
     private List<String> attachedPhotoIds = new ArrayList<>();
     private String userId;
     private String placeId;
