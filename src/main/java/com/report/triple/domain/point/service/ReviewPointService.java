@@ -90,8 +90,8 @@ public class ReviewPointService implements PointService{
 
     // 사용자가 여행지에 리뷰를 달았는지 여부 확인
     private boolean isPresent(EarningPointRequest earningPointRequest) {
-        List<Review> ReviewList = reviewRepository.findByPlaceId(earningPointRequest.getPlaceId());
-        boolean isPresent = ReviewList.stream().anyMatch(r -> r.getUserId().equals(earningPointRequest.getUserId()));
+        List<Review> reviewList = reviewRepository.findByPlaceId(earningPointRequest.getPlaceId());
+        boolean isPresent = reviewList.stream().anyMatch(r -> r.getUserId().equals(earningPointRequest.getUserId()));
         return isPresent;
     }
 
