@@ -12,7 +12,7 @@ public class PointDto {
 
     public static PointDto of(Point point){
         PointDto pointDto = new PointDto();
-        pointDto.setUserId(pointDto.getUserId());
+        pointDto.setUserId(point.getUserId());
         pointDto.setTotalPoint(point.getTotalPoint());
 
         return pointDto;
