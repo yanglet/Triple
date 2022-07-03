@@ -25,13 +25,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     protected ErrorResult httpRequestMethodNotSupportedExceptionHandler(HttpRequestMethodNotSupportedException e){
         log.error("httpRequestMethodNotSupportedExceptionHandler ", e);
-        return new ErrorResult("405", "지원하지않는 Http Method 입니다. ");
+        return ErrorResult.of("405", "지원하지않는 Http Method 입니다. ");
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler
     protected ErrorResult defaultExceptionHandler(Exception e){
         log.error("DefaultExceptionHandler", e);
-        return new ErrorResult("500", "서버 오류!");
+        return ErrorResult.of("500", "서버 오류!");
     }
 }

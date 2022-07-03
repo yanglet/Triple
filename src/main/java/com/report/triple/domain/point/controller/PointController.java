@@ -38,7 +38,7 @@ public class PointController {
     public ResponseEntity<List<PointDto>> getPoints(){
         List<PointDto> result = pointRepository.findAll()
                 .stream()
-                .map(PointDto::new)
+                .map(PointDto::of)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(result);
     }
@@ -47,7 +47,7 @@ public class PointController {
     @GetMapping("/points/{userId}")
     public ResponseEntity<PointDto> getPoint(@PathVariable(name = "userId") String userId){
         Point point = pointRepository.findByUserId(userId);
-        return ResponseEntity.ok(new PointDto(point));
+        return ResponseEntity.ok(PointDto.of(point));
     }
 
     @ApiOperation("사용자 포인트 적립 이력 조회")
@@ -72,7 +72,7 @@ public class PointController {
     ){
         List<PointLogDto> result = pointLogRepository.findByUserIdAndReviewId(userId, reviewId)
                 .stream()
-                .map(PointLogDto::new)
+                .map(PointLogDto::of)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(result);
     }

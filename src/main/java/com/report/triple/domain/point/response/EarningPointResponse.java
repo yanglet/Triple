@@ -1,19 +1,29 @@
 package com.report.triple.domain.point.response;
 
 import com.report.triple.domain.point.entity.Point;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
+@Setter(AccessLevel.PRIVATE)
 @NoArgsConstructor
 @AllArgsConstructor
 public class EarningPointResponse {
     private String userId;
     private int point;
 
-    public EarningPointResponse(Point userPoint) {
-        this.userId = userPoint.getUserId();
-        this.point = userPoint.getTotalPoint();
+    public static EarningPointResponse of(Point userPoint){
+        EarningPointResponse earningPointResponse = new EarningPointResponse();
+        earningPointResponse.setUserId(userPoint.getUserId());
+        earningPointResponse.setPoint(userPoint.getTotalPoint());
+
+        return earningPointResponse;
+    }
+
+    public static EarningPointResponse of(String userId, int point){
+        EarningPointResponse earningPointResponse = new EarningPointResponse();
+        earningPointResponse.setUserId(userId);
+        earningPointResponse.setPoint(point);
+
+        return earningPointResponse;
     }
 }

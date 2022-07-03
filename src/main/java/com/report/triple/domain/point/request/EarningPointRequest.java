@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -23,7 +24,7 @@ public class EarningPointRequest {
     private String reviewId;
     @NotNull // 빈 문자열 가능
     private String content;
-    private List<String> attachedPhotoIds;
+    private List<String> attachedPhotoIds = new ArrayList<>();
     @NotBlank
     @UUID
     private String userId;

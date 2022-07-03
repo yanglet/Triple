@@ -14,10 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.report.triple.domain.point.service.ReviewEventConstants.*;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class ReviewPointService implements PointService{
+public class ReviewEventPointService implements PointService{
     private final PointLogRepository pointLogRepository;
     private final PointRepository pointRepository;
     private final ReviewRepository reviewRepository;
@@ -25,15 +27,16 @@ public class ReviewPointService implements PointService{
     @Override
     public EarningPointResponse earningPoint(EarningPointRequest earningPointRequest) {
         // 리뷰 작성 이벤트가 아닐경우
-        if( !earningPointRequest.getType().equals("REVIEW") ){
-            return new EarningPointResponse(earningPointRequest.getUserId(), 0);
+        if( !earningPointRequest.getType().equals(REVIEW_EVENT_TYPE) ){
+            Point userPoint = getUserPoint(earningPointRequest.getUserId());
+            return EarningPointResponse.of(userPoint);
         }
 
-        if(earningPointRequest.getAction().equals("ADD")){ // 리뷰 작성
+        if(earningPointRequest.getAction().equals(REVIEW_EVENT_ACTION_ADD)){ // 리뷰 작성
             // 동일 사용자가 동일한 장소에 리뷰를 2개 이상 추가할 수 없음
             if( isPresent(earningPointRequest) ){
                 Point userPoint = getUserPoint(earningPointRequest.getUserId());
-                return new EarningPointResponse(userPoint);
+                return EarningPointResponse.of(userPoint);
             }
 
             int curPoint = calculatePoint(earningPointRequest);
@@ -52,15 +55,16 @@ public class ReviewPointService implements PointService{
 
             savePointLog(earningPointRequest, curPoint);
 
-            return new EarningPointResponse(userPoint);
-        }else if(earningPointRequest.getAction().equals("MOD")){ // 리뷰 수정
+            return EarningPointResponse.of(userPoint);
+        }else if(earningPointRequest.getAction().equals(REVIEW_EVENT_ACTION_MOD)){ // 리뷰 수정
             Review review = reviewRepository.findById(earningPointRequest.getReviewId()).orElseThrow();
             int oldPoint = calculatePoint(review);
             // 리뷰 작성한 사용자가 아닌 경우 수정 불가능
             if( !earningPointRequest.getUserId().equals(review.getUserId()) ){
                 Point userPoint = getUserPoint(earningPointRequest.getUserId());
-                return new EarningPointResponse(userPoint);
+                return EarningPointResponse.of(userPoint);
             }
+
             review.update(earningPointRequest.getContent(), earningPointRequest.getAttachedPhotoIds());
             int curPoint = calculatePoint(review);
 
@@ -70,22 +74,23 @@ public class ReviewPointService implements PointService{
 
             savePointLog(earningPointRequest, curPoint - oldPoint);
 
-            return new EarningPointResponse(userPoint);
-        }else if(earningPointRequest.getAction().equals("DELETE")){ // 리뷰 삭제
+            return EarningPointResponse.of(userPoint);
+        }else if(earningPointRequest.getAction().equals(REVIEW_EVENT_ACTION_DELETE)){ // 리뷰 삭제
             // 장소에 대한 첫 리뷰가 삭제되어도 기존의 남아있던 리뷰들은 보너스 포인트를 받을 수 없음
             Review review = reviewRepository.findById(earningPointRequest.getReviewId()).orElseThrow();
             int oldPoint = calculatePoint(review);
             reviewRepository.deleteById(earningPointRequest.getReviewId());
 
-            Point userPoint = pointRepository.findByUserId(earningPointRequest.getUserId());
+            Point userPoint = getUserPoint(earningPointRequest.getUserId());
             userPoint.minusPoint(oldPoint);
 
             savePointLog(earningPointRequest, oldPoint * -1);
 
-            return new EarningPointResponse(userPoint);
+            return EarningPointResponse.of(userPoint);
         }
 
-        return new EarningPointResponse(earningPointRequest.getUserId(), 0);
+        Point userPoint = getUserPoint(earningPointRequest.getUserId());
+        return EarningPointResponse.of(userPoint);
     }
 
     // 사용자가 여행지에 리뷰를 달았는지 여부 확인
@@ -157,8 +162,9 @@ public class ReviewPointService implements PointService{
         return point;
     }
 
+    // 사진이 첨부 되었는지 확인
     private boolean checkAttachedPhotoIds(List<String> attachedPhotoIds){
-        if(attachedPhotoIds != null && attachedPhotoIds.size() > 0){
+        if( !attachedPhotoIds.isEmpty() ){
             return true;
         }
         return false;
