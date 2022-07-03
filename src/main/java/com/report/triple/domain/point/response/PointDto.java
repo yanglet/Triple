@@ -1,18 +1,20 @@
 package com.report.triple.domain.point.response;
 
 import com.report.triple.domain.point.entity.Point;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
+@Setter(AccessLevel.PRIVATE)
 @NoArgsConstructor
 public class PointDto {
     private String userId;
     private int totalPoint;
 
-    public PointDto(Point point) {
-        this.userId = point.getUserId();
-        this.totalPoint = point.getTotalPoint();
+    public static PointDto of(Point point){
+        PointDto pointDto = new PointDto();
+        pointDto.setUserId(pointDto.getUserId());
+        pointDto.setTotalPoint(point.getTotalPoint());
+
+        return pointDto;
     }
 }
