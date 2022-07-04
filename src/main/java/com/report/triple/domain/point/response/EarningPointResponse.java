@@ -18,12 +18,4 @@ public class EarningPointResponse {
 
         return earningPointResponse;
     }
-
-    public static EarningPointResponse of(String userId, int point){
-        EarningPointResponse earningPointResponse = new EarningPointResponse();
-        earningPointResponse.setUserId(userId);
-        earningPointResponse.setPoint(point);
-
-        return earningPointResponse;
-    }
 }

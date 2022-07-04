@@ -3,12 +3,11 @@ package com.report.triple.domain.point.repository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.report.triple.domain.point.entity.PointLog;
-import com.report.triple.domain.point.entity.QPointLog;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-import static com.report.triple.domain.point.entity.QPointLog.*;
+import static com.report.triple.domain.point.entity.QPointLog.pointLog;
 
 @RequiredArgsConstructor
 public class PointLogRepositoryImpl implements PointLogRepositoryCustom {

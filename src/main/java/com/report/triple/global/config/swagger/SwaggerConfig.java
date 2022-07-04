@@ -19,7 +19,7 @@ import java.util.Set;
 public class SwaggerConfig {
     private ApiInfo swaggerInfo(){
         return new ApiInfoBuilder()
-                .title("Cryptocurrency Simulator API")
+                .title("Triple API")
                 .description("API Docs").build();
     }
 
