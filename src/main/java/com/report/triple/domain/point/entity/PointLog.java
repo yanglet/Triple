@@ -1,7 +1,6 @@
 package com.report.triple.domain.point.entity;
 
 import com.report.triple.domain.common.entity.BaseEntity;
-import com.report.triple.domain.review.entity.Review;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
